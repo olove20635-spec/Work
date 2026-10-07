@@ -1,9 +1,11 @@
 {
   "name": "บันทึกการเดินทาง",
   "short_name": "เดินทาง",
-  "start_url": "./Work.html",
+  "description": "บันทึกและวางแผนการเดินทาง",
+  "start_url": "/Work/",
+  "scope": "/Work/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1f2937",
-  "description": "บันทึกการเดินทางส่วนตัว"
+  "lang": "th"
 }
