@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>บันทึกการเดินทาง</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1f2937">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Work">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f4f5f7;
+    color: #222;
+}
+
+.app {
+    max-width: 700px;
+    margin: auto;
+    min-height: 100vh;
+    background: white;
+}
+
+.header {
+    padding: 22px 16px 14px;
+    background: #1f2937;
+    color: white;
+}
+
+.header h1 {
+    margin: 0 0 14px;
+    font-size: 24px;
+}
+
+.selector {
+    display: flex;
+    gap: 10px;
+}
+
+.selector select {
+    flex: 1;
+    font-size: 17px;
+    padding: 10px;
+    border: 0;
+    border-radius: 10px;
+}
+
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+}
+
+.weekdays div {
+    padding: 10px 2px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.day {
+    position: relative;
+    min-height: 95px;
+    padding: 7px 5px;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.day.empty {
+    background: #fafafa;
+    cursor: default;
+}
+
+.day.today {
+    background: #fffbea;
+}
+
+.day-number {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.place {
+    font-size: 12px;
+    line-height: 1.25;
+    word-break: break-word;
+}
+
+.stay {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.stay.yes {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.stay.no {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* Popup */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    background: white;
+    width: 100%;
+    max-width: 700px;
+    border-radius: 20px 20px 0 0;
+    padding: 22px 18px;
+    padding-bottom: calc(22px + env(safe-area-inset-bottom));
+}
+
+.modal-box h2 {
+    margin: 0 0 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 13px;
+    font-size: 17px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 18px;
+}
+
+.stay-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.stay-option {
+    flex: 1;
+    border: 2px solid #ddd;
+    padding: 12px 5px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.stay-option.selected {
+    border-color: #111827;
+    background: #f3f4f6;
+    font-weight: 700;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    border: 0;
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.save {
+    flex: 2;
+    background: #1f2937;
+    color: white;
+}
+
+.cancel {
+    flex: 1;
+    background: #e5e7eb;
+}
+
+.delete {
+    flex: 1;
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+@media (max-width: 500px) {
+    .day {
+        min-height: 80px;
+        padding: 5px 3px;
+    }
+
+    .place {
+        font-size: 10px;
+    }
+
+    .stay {
+        font-size: 9px;
+        padding: 2px 3px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="header">
+        <h1>📍 บันทึกการเดินทาง</h1>
+
+        <div class="selector">
+            <select id="monthSelect"></select>
+            <select id="yearSelect"></select>
+        </div>
+    </div>
+
+    <div class="weekdays">
+        <div>อา.</div>
+        <div>จ.</div>
+        <div>อ.</div>
+        <div>พ.</div>
+        <div>พฤ.</div>
+        <div>ศ.</div>
+        <div>ส.</div>
+    </div>
+
+    <div id="calendar" class="calendar"></div>
+
+</div>
+
+
+<!-- Popup กรอกข้อมูล -->
+
+<div id="modal" class="modal">
+
+    <div class="modal-box">
+
+        <h2 id="modalTitle">วันที่</h2>
+
+        <label>วันนี้เดินทางไปไหน?</label>
+
+        <input
+            type="text"
+            id="placeInput"
+            placeholder="เช่น กรุงเทพฯ"
+        >
+
+        <label>นอนค้างหรือไม่?</label>
+
+        <div class="stay-options">
+
+            <div
+                id="stayYes"
+                class="stay-option"
+                onclick="selectStay(true)"
+            >
+                🛏️ ค้าง
+            </div>
+
+            <div
+                id="stayNo"
+                class="stay-option"
+                onclick="selectStay(false)"
+            >
+                🏠 ไม่ค้าง
+            </div>
+
+        </div>
+
+        <div class="buttons">
+
+            <button
+                class="delete"
+                onclick="deleteData()"
+            >
+                ลบ
+            </button>
+
+            <button
+                class="cancel"
+                onclick="closeModal()"
+            >
+                ยกเลิก
+            </button>
+
+            <button
+                class="save"
+                onclick="saveData()"
+            >
+                บันทึก
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const monthNames = [
+    "มกราคม",
+    "กุมภาพันธ์",
+    "มีนาคม",
+    "เมษายน",
+    "พฤษภาคม",
+    "มิถุนายน",
+    "กรกฎาคม",
+    "สิงหาคม",
+    "กันยายน",
+    "ตุลาคม",
+    "พฤศจิกายน",
+    "ธันวาคม"
+];
+
+const monthSelect =
+    document.getElementById("monthSelect");
+
+const yearSelect =
+    document.getElementById("yearSelect");
+
+const calendar =
+    document.getElementById("calendar");
+
+const modal =
+    document.getElementById("modal");
+
+const placeInput =
+    document.getElementById("placeInput");
+
+let selectedDay = null;
+let selectedStay = null;
+
+
+// -------------------------
+// สร้างรายการเดือน
+// -------------------------
+
+monthNames.forEach((month, index) => {
+
+    const option =
+        document.createElement("option");
+
+    option.value = index;
+    option.textContent = month;
+
+    monthSelect.appendChild(option);
+
+});
+
+
+// -------------------------
+// สร้างรายการปี
+// -------------------------
+
+const currentDate = new Date();
+const currentYear = currentDate.getFullYear();
+
+for (
+    let year = currentYear - 10;
+    year <= currentYear + 10;
+    year++
+) {
+
+    const option =
+        document.createElement("option");
+
+    option.value = year;
+    option.textContent = year;
+
+    yearSelect.appendChild(option);
+
+}
+
+
+// เปิดเดือนปัจจุบัน
+
+monthSelect.value =
+    currentDate.getMonth();
+
+yearSelect.value =
+    currentYear;
+
+
+// -------------------------
+// เมื่อเปลี่ยนเดือน / ปี
+// -------------------------
+
+monthSelect.addEventListener(
+    "change",
+    renderCalendar
+);
+
+yearSelect.addEventListener(
+    "change",
+    renderCalendar
+);
+
+
+// -------------------------
+// สร้างปฏิทิน
+// -------------------------
+
+function renderCalendar() {
+
+    calendar.innerHTML = "";
+
+    const year =
+        Number(yearSelect.value);
+
+    const month =
+        Number(monthSelect.value);
+
+    const firstDay =
+        new Date(year, month, 1).getDay();
+
+    const daysInMonth =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    // ช่องว่างก่อนวันที่ 1
+
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
+
+        const empty =
+            document.createElement("div");
+
+        empty.className =
+            "day empty";
+
+        calendar.appendChild(empty);
+
+    }
+
+
+    // วันที่ 1 - วันสุดท้าย
+
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+
+        const dayBox =
+            document.createElement("div");
+
+        dayBox.className = "day";
+
+
+        // วันนี้
+
+        if (
+            day === currentDate.getDate() &&
+            month === currentDate.getMonth() &&
+            year === currentDate.getFullYear()
+        ) {
+
+            dayBox.classList.add("today");
+
+        }
+
+
+        const number =
+            document.createElement("div");
+
+        number.className =
+            "day-number";
+
+        number.textContent = day;
+
+        dayBox.appendChild(number);
+
+
+        // อ่านข้อมูลที่เคยบันทึก
+
+        const key =
+            createKey(year, month, day);
+
+        const saved =
+            localStorage.getItem(key);
+
+        if (saved) {
+
+            const data =
+                JSON.parse(saved);
+
+            if (data.place) {
+
+                const place =
+                    document.createElement("div");
+
+                place.className = "place";
+                place.textContent = data.place;
+
+                dayBox.appendChild(place);
+
+            }
+
+
+            if (
+                data.stay !== null &&
+                data.stay !== undefined
+            ) {
+
+                const stay =
+                    document.createElement("div");
+
+                stay.className =
+                    data.stay
+                    ? "stay yes"
+                    : "stay no";
+
+                stay.textContent =
+                    data.stay
+                    ? "ค้าง"
+                    : "ไม่ค้าง";
+
+                dayBox.appendChild(stay);
+
+            }
+
+        }
+
+
+        dayBox.onclick = () => {
+
+            openModal(day);
+
+        };
+
+
+        calendar.appendChild(dayBox);
+
+    }
+
+}
+
+
+// -------------------------
+// สร้างชื่อข้อมูล
+// -------------------------
+
+function createKey(
+    year,
+    month,
+    day
+) {
+
+    return (
+        "travel-" +
+        year +
+        "-" +
+        (month + 1) +
+        "-" +
+        day
+    );
+
+}
+
+
+// -------------------------
+// เปิด Popup
+// -------------------------
+
+function openModal(day) {
+
+    selectedDay = day;
+    selectedStay = null;
+
+    const year =
+        Number(yearSelect.value);
+
+    const month =
+        Number(monthSelect.value);
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        day +
+        " " +
+        monthNames[month] +
+        " " +
+        year;
+
+
+    const key =
+        createKey(
+            year,
+            month,
+            day
+        );
+
+    const saved =
+        localStorage.getItem(key);
+
+
+    placeInput.value = "";
+
+    document
+        .getElementById("stayYes")
+        .classList
+        .remove("selected");
+
+    document
+        .getElementById("stayNo")
+        .classList
+        .remove("selected");
+
+
+    if (saved) {
+
+        const data =
+            JSON.parse(saved);
+
+        placeInput.value =
+            data.place || "";
+
+        if (
+            data.stay !== null &&
+            data.stay !== undefined
+        ) {
+
+            selectStay(data.stay);
+
+        }
+
+    }
+
+
+    modal.classList.add("show");
+
+    setTimeout(() => {
+
+        placeInput.focus();
+
+    }, 200);
+
+}
+
+
+// -------------------------
+// เลือกค้าง / ไม่ค้าง
+// -------------------------
+
+function selectStay(value) {
+
+    selectedStay = value;
+
+    document
+        .getElementById("stayYes")
+        .classList
+        .toggle(
+            "selected",
+            value === true
+        );
+
+    document
+        .getElementById("stayNo")
+        .classList
+        .toggle(
+            "selected",
+            value === false
+        );
+
+}
+
+
+// -------------------------
+// บันทึก
+// -------------------------
+
+function saveData() {
+
+    const year =
+        Number(yearSelect.value);
+
+    const month =
+        Number(monthSelect.value);
+
+    const key =
+        createKey(
+            year,
+            month,
+            selectedDay
+        );
+
+
+    const data = {
+
+        place:
+            placeInput.value.trim(),
+
+        stay:
+            selectedStay
+
+    };
+
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(data)
+    );
+
+
+    closeModal();
+    renderCalendar();
+
+}
+
+
+// -------------------------
+// ลบข้อมูลวันนั้น
+// -------------------------
+
+function deleteData() {
+
+    const year =
+        Number(yearSelect.value);
+
+    const month =
+        Number(monthSelect.value);
+
+    const key =
+        createKey(
+            year,
+            month,
+            selectedDay
+        );
+
+    localStorage.removeItem(key);
+
+    closeModal();
+    renderCalendar();
+
+}
+
+
+// -------------------------
+// ปิด Popup
+// -------------------------
+
+function closeModal() {
+
+    modal.classList.remove("show");
+
+}
+
+
+// กดพื้นหลังเพื่อปิด
+
+modal.addEventListener(
+    "click",
+    function(event) {
+
+        if (event.target === modal) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+// เริ่มต้น
+
+renderCalendar();
+
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js");
+  });
+}
+</script>
+
+</body>
+</html>
