@@ -15,6 +15,7 @@
 <meta name="apple-mobile-web-app-title" content="บันทึกการเดินทาง">
 
 <style>
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
@@ -43,47 +44,49 @@ body{
   max-width:760px;
   min-height:100vh;
   margin:auto;
-  padding-bottom:30px;
+  padding-bottom:25px;
 }
 
-/* HEADER */
+
+/* =========================
+   HEADER
+========================= */
 
 .header{
   background:linear-gradient(145deg,var(--navy),var(--navy2));
   color:white;
-  padding:calc(18px + env(safe-area-inset-top)) 18px 24px;
-  border-radius:0 0 26px 26px;
-  box-shadow:0 8px 25px rgba(23,32,51,.18);
+
+  padding:
+    calc(12px + env(safe-area-inset-top))
+    16px
+    16px;
+
+  border-radius:0 0 24px 24px;
+
+  box-shadow:
+    0 8px 24px rgba(23,32,51,.18);
 }
 
-.brand-small{
-  font-size:13px;
-  opacity:.65;
-  letter-spacing:.5px;
-  margin-bottom:5px;
-}
 
-.header h1{
-  font-size:25px;
-  margin:0 0 22px;
-  font-weight:750;
-}
+/* เดือน */
 
 .month-nav{
   display:grid;
-  grid-template-columns:46px 1fr 46px;
+  grid-template-columns:42px 1fr 42px;
   align-items:center;
-  gap:8px;
 }
 
 .nav-btn{
-  width:46px;
-  height:46px;
+  width:42px;
+  height:42px;
+
   border:none;
-  border-radius:14px;
-  background:rgba(255,255,255,.12);
+  border-radius:13px;
+
+  background:rgba(255,255,255,.10);
   color:white;
-  font-size:28px;
+
+  font-size:27px;
 }
 
 .month-center{
@@ -91,124 +94,122 @@ body{
 }
 
 .month-title{
-  font-size:22px;
+  display:inline;
+  font-size:21px;
   font-weight:750;
 }
 
 .year-title{
-  margin-top:2px;
+  display:inline;
+  margin-left:6px;
+  font-size:21px;
+  font-weight:750;
+}
+
+
+/* เงิน */
+
+.money-area{
+  text-align:center;
+  margin-top:8px;
+}
+
+.money-value{
+  font-size:32px;
+  font-weight:800;
+  letter-spacing:-.5px;
+}
+
+.money-value .baht{
+  font-size:21px;
+  font-weight:650;
+  opacity:.8;
+  margin-right:3px;
+}
+
+.period{
+  margin-top:1px;
+  font-size:11px;
+  color:rgba(255,255,255,.65);
+}
+
+
+/* สรุป */
+
+.header-summary{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+
+  margin-top:10px;
+}
+
+.summary-pill{
+  background:rgba(255,255,255,.10);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:20px;
+
+  padding:6px 11px;
+
+  font-size:11px;
+  color:rgba(255,255,255,.88);
+}
+
+.summary-pill strong{
   font-size:13px;
-  opacity:.65;
+  color:white;
+}
+
+.dot{
+  opacity:.4;
+  font-size:10px;
 }
 
 .hidden-selects{
   display:none;
 }
 
-/* SUMMARY */
 
-.summary{
-  margin:16px 14px 12px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.summary-card{
-  background:white;
-  border-radius:16px;
-  padding:13px 15px;
-  box-shadow:0 2px 12px rgba(0,0,0,.04);
-}
-
-.summary-label{
-  font-size:11px;
-  color:var(--muted);
-  margin-bottom:3px;
-}
-
-.summary-value{
-  font-size:20px;
-  font-weight:750;
-}
-
-.summary-unit{
-  font-size:12px;
-  font-weight:500;
-  color:var(--muted);
-  margin-left:3px;
-}
-
-/* MONEY */
-
-.total-card{
-  grid-column:1 / -1;
-  padding:16px 18px;
-}
-
-.total-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:10px;
-}
-
-.total-card .summary-value{
-  font-size:31px;
-  color:var(--navy);
-}
-
-.money-icon{
-  width:42px;
-  height:42px;
-  border-radius:13px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#eef3ff;
-  font-size:21px;
-}
-
-.period-text{
-  margin-top:7px;
-  font-size:12px;
-  color:var(--muted);
-}
-
-.amount-detail{
-  margin-top:8px;
-  padding-top:8px;
-  border-top:1px solid #edf0f4;
-  font-size:11px;
-  color:#687181;
-}
-
-/* CALENDAR */
+/* =========================
+   CALENDAR
+========================= */
 
 .calendar-card{
-  margin:0 10px;
+  margin:12px 10px 0;
+
   background:white;
-  border-radius:20px;
+
+  border-radius:18px;
+
   overflow:hidden;
-  box-shadow:0 3px 18px rgba(0,0,0,.055);
+
+  box-shadow:
+    0 3px 16px rgba(0,0,0,.05);
 }
 
 .weekdays{
   display:grid;
   grid-template-columns:repeat(7,1fr);
-  padding:11px 3px 8px;
+
+  padding:10px 3px 7px;
+
   border-bottom:1px solid var(--line);
 }
 
 .weekdays div{
   text-align:center;
-  font-size:11px;
+
+  font-size:10px;
   font-weight:650;
+
   color:var(--muted);
 }
 
 .weekdays div:first-child{
-  color:#ef6464;
+  color:#e75c5c;
 }
 
 .calendar{
@@ -218,11 +219,16 @@ body{
 
 .day{
   position:relative;
-  min-height:92px;
-  padding:7px 5px;
+
+  min-height:82px;
+
+  padding:5px 4px;
+
   border-right:1px solid var(--line);
   border-bottom:1px solid var(--line);
+
   background:white;
+
   overflow:hidden;
 }
 
@@ -235,15 +241,19 @@ body{
 }
 
 .day-number{
-  width:26px;
-  height:26px;
+  width:23px;
+  height:23px;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   border-radius:50%;
-  font-size:13px;
+
+  font-size:12px;
   font-weight:700;
-  margin-bottom:4px;
+
+  margin-bottom:3px;
 }
 
 .day.today .day-number{
@@ -252,23 +262,30 @@ body{
 }
 
 .place{
-  font-size:11px;
+  font-size:9.5px;
   line-height:1.25;
+
   font-weight:650;
+
   color:#343d4d;
+
   display:-webkit-box;
   -webkit-line-clamp:2;
   -webkit-box-orient:vertical;
+
   overflow:hidden;
 }
 
 .stay{
   display:inline-flex;
-  align-items:center;
-  margin-top:5px;
-  padding:3px 6px;
-  border-radius:8px;
-  font-size:9px;
+
+  margin-top:4px;
+
+  padding:3px 4px;
+
+  border-radius:7px;
+
+  font-size:8px;
   font-weight:700;
 }
 
@@ -282,16 +299,24 @@ body{
   color:#737b89;
 }
 
-/* MODAL */
+
+/* =========================
+   MODAL
+========================= */
 
 .modal{
   display:none;
+
   position:fixed;
   inset:0;
-  background:rgba(8,15,28,.5);
-  backdrop-filter:blur(3px);
-  -webkit-backdrop-filter:blur(3px);
+
+  background:rgba(8,15,28,.52);
+
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+
   z-index:1000;
+
   align-items:flex-end;
   justify-content:center;
 }
@@ -303,16 +328,25 @@ body{
 .modal-box{
   width:100%;
   max-width:760px;
+
   background:white;
+
   border-radius:26px 26px 0 0;
-  padding:12px 18px calc(20px + env(safe-area-inset-bottom));
+
+  padding:
+    12px
+    18px
+    calc(20px + env(safe-area-inset-bottom));
 }
 
 .handle{
   width:42px;
   height:5px;
+
   background:#d8dbe1;
+
   border-radius:10px;
+
   margin:0 auto 16px;
 }
 
@@ -328,54 +362,81 @@ body{
 
 label{
   display:block;
+
   font-size:13px;
   font-weight:650;
-  margin:0 0 7px;
+
+  margin-bottom:7px;
 }
 
 input[type="text"]{
   width:100%;
+
   border:1.5px solid #e1e4e9;
+
   outline:none;
+
   border-radius:14px;
+
   padding:14px;
+
   font-size:17px;
+
   margin-bottom:18px;
+
   background:#fafbfc;
+}
+
+input[type="text"]:focus{
+  border-color:#9aaac7;
+  background:white;
 }
 
 .stay-options{
   display:grid;
   grid-template-columns:1fr 1fr;
+
   gap:10px;
+
   margin-bottom:20px;
 }
 
 .stay-option{
-  padding:14px 8px;
+  padding:14px 6px;
+
   border:1.5px solid #e2e5ea;
+
   border-radius:14px;
+
   text-align:center;
-  font-size:14px;
+
+  font-size:13px;
   font-weight:650;
 }
 
 .stay-option.selected{
   border-color:var(--navy);
+
   background:#f2f5fa;
+
   color:var(--navy);
 }
 
 .buttons{
   display:grid;
+
   grid-template-columns:.75fr .9fr 1.6fr;
+
   gap:9px;
 }
 
 .buttons button{
   border:none;
+
   border-radius:13px;
+
   padding:14px 6px;
+
   font-size:14px;
   font-weight:700;
 }
@@ -395,29 +456,9 @@ input[type="text"]{
   color:white;
 }
 
-@media(max-width:430px){
-  .day{
-    min-height:82px;
-    padding:5px 3px;
-  }
-
-  .day-number{
-    width:23px;
-    height:23px;
-    font-size:12px;
-  }
-
-  .place{
-    font-size:9.5px;
-  }
-
-  .stay{
-    font-size:8px;
-    padding:3px 4px;
-  }
-}
 </style>
 </head>
+
 
 <body>
 
@@ -425,94 +466,103 @@ input[type="text"]{
 
 <header class="header">
 
-  <div class="brand-small">MY TRAVEL</div>
-
-  <h1>บันทึกการเดินทาง</h1>
-
   <div class="month-nav">
 
-    <button class="nav-btn" onclick="changeMonth(-1)">
+    <button
+      class="nav-btn"
+      onclick="changeMonth(-1)"
+    >
       ‹
     </button>
 
     <div class="month-center">
-      <div id="monthTitle" class="month-title"></div>
-      <div id="yearTitle" class="year-title"></div>
+
+      <span
+        id="monthTitle"
+        class="month-title"
+      ></span>
+
+      <span
+        id="yearTitle"
+        class="year-title"
+      ></span>
+
     </div>
 
-    <button class="nav-btn" onclick="changeMonth(1)">
+    <button
+      class="nav-btn"
+      onclick="changeMonth(1)"
+    >
       ›
     </button>
 
   </div>
 
+
+  <div class="money-area">
+
+    <div class="money-value">
+
+      <span class="baht">฿</span>
+
+      <span id="totalAmount">
+        0
+      </span>
+
+    </div>
+
+    <div
+      id="periodText"
+      class="period"
+    ></div>
+
+  </div>
+
+
+  <div class="header-summary">
+
+    <div class="summary-pill">
+
+      <strong id="travelDays">
+        0
+      </strong>
+
+      วันเดินทาง
+
+    </div>
+
+    <span class="dot">
+      •
+    </span>
+
+    <div class="summary-pill">
+
+      <strong id="stayNights">
+        0
+      </strong>
+
+      คืนค้าง
+
+    </div>
+
+  </div>
+
+
   <div class="hidden-selects">
+
     <select id="monthSelect"></select>
+
     <select id="yearSelect"></select>
+
   </div>
 
 </header>
 
 
-<section class="summary">
-
-  <div class="summary-card">
-    <div class="summary-label">
-      วันที่มีการเดินทาง
-    </div>
-
-    <div class="summary-value">
-      <span id="travelDays">0</span>
-      <span class="summary-unit">วัน</span>
-    </div>
-  </div>
-
-
-  <div class="summary-card">
-    <div class="summary-label">
-      คืนที่ค้าง
-    </div>
-
-    <div class="summary-value">
-      <span id="stayNights">0</span>
-      <span class="summary-unit">คืน</span>
-    </div>
-  </div>
-
-
-  <div class="summary-card total-card">
-
-    <div class="total-head">
-
-      <div>
-        <div class="summary-label">
-          ยอดรวมรอบนี้
-        </div>
-
-        <div class="summary-value">
-          <span id="totalAmount">0</span>
-          <span class="summary-unit">บาท</span>
-        </div>
-      </div>
-
-      <div class="money-icon">
-        ฿
-      </div>
-
-    </div>
-
-    <div id="periodText" class="period-text"></div>
-
-    <div id="amountDetail" class="amount-detail"></div>
-
-  </div>
-
-</section>
-
-
 <section class="calendar-card">
 
   <div class="weekdays">
+
     <div>อา.</div>
     <div>จ.</div>
     <div>อ.</div>
@@ -520,31 +570,39 @@ input[type="text"]{
     <div>พฤ.</div>
     <div>ศ.</div>
     <div>ส.</div>
+
   </div>
 
-  <div id="calendar" class="calendar"></div>
+  <div
+    id="calendar"
+    class="calendar"
+  ></div>
 
 </section>
 
 </div>
 
 
-<div id="modal" class="modal">
+<div
+  id="modal"
+  class="modal"
+>
 
 <div class="modal-box">
 
   <div class="handle"></div>
 
   <div class="modal-small">
-    บันทึกการเดินทาง
+    รายละเอียดการเดินทาง
   </div>
 
   <h2 id="modalTitle">
     วันที่
   </h2>
 
+
   <label>
-    วันนี้เดินทางไปไหน?
+    เดินทางไปไหน?
   </label>
 
   <input
@@ -554,9 +612,11 @@ input[type="text"]{
     autocomplete="off"
   >
 
+
   <label>
-    นอนค้างหรือไม่?
+    การพักค้าง
   </label>
+
 
   <div class="stay-options">
 
@@ -565,30 +625,47 @@ input[type="text"]{
       class="stay-option"
       onclick="selectStay(true)"
     >
-      🛏️ ค้าง · 300 บาท
+      🛏️ ค้าง
+      <br>
+      300 บาท
     </div>
+
 
     <div
       id="stayNo"
       class="stay-option"
       onclick="selectStay(false)"
     >
-      🏠 ไม่ค้าง · 250 บาท
+      🏠 ไม่ค้าง
+      <br>
+      250 บาท
     </div>
 
   </div>
 
+
   <div class="buttons">
 
-    <button class="delete" onclick="deleteData()">
+    <button
+      class="delete"
+      onclick="deleteData()"
+    >
       ลบ
     </button>
 
-    <button class="cancel" onclick="closeModal()">
+
+    <button
+      class="cancel"
+      onclick="closeModal()"
+    >
       ยกเลิก
     </button>
 
-    <button class="save" onclick="saveData()">
+
+    <button
+      class="save"
+      onclick="saveData()"
+    >
       บันทึก
     </button>
 
@@ -614,6 +691,22 @@ const monthNames = [
   "พฤศจิกายน",
   "ธันวาคม"
 ];
+
+const monthShort = [
+  "ม.ค.",
+  "ก.พ.",
+  "มี.ค.",
+  "เม.ย.",
+  "พ.ค.",
+  "มิ.ย.",
+  "ก.ค.",
+  "ส.ค.",
+  "ก.ย.",
+  "ต.ค.",
+  "พ.ย.",
+  "ธ.ค."
+];
+
 
 const monthSelect =
   document.getElementById("monthSelect");
@@ -648,33 +741,40 @@ const totalAmountEl =
 const periodTextEl =
   document.getElementById("periodText");
 
-const amountDetailEl =
-  document.getElementById("amountDetail");
-
 
 let selectedDay = null;
 let selectedStay = null;
 
-const currentDate = new Date();
-const currentYear = currentDate.getFullYear();
+
+const currentDate =
+  new Date();
+
+const currentYear =
+  currentDate.getFullYear();
 
 
-/* สร้างรายชื่อเดือน */
+/* =========================
+   MONTH OPTIONS
+========================= */
 
-monthNames.forEach((month,index)=>{
+monthNames.forEach(
+  (month,index) => {
 
-  const option =
-    document.createElement("option");
+    const option =
+      document.createElement("option");
 
-  option.value = index;
-  option.textContent = month;
+    option.value = index;
+    option.textContent = month;
 
-  monthSelect.appendChild(option);
+    monthSelect.appendChild(option);
 
-});
+  }
+);
 
 
-/* สร้างปี */
+/* =========================
+   YEAR OPTIONS
+========================= */
 
 for(
   let year=currentYear-10;
@@ -700,7 +800,9 @@ yearSelect.value =
   currentYear;
 
 
-/* เปลี่ยนเดือน */
+/* =========================
+   CHANGE MONTH
+========================= */
 
 function changeMonth(amount){
 
@@ -710,22 +812,32 @@ function changeMonth(amount){
   let year =
     Number(yearSelect.value);
 
+
   month += amount;
 
+
   if(month < 0){
+
     month = 11;
     year--;
+
   }
 
+
   if(month > 11){
+
     month = 0;
     year++;
+
   }
 
 
   if(
     !Array.from(yearSelect.options)
-      .some(o => Number(o.value) === year)
+      .some(
+        option =>
+          Number(option.value) === year
+      )
   ){
 
     const option =
@@ -735,19 +847,33 @@ function changeMonth(amount){
     option.textContent = year;
 
     yearSelect.appendChild(option);
+
   }
 
 
   monthSelect.value = month;
   yearSelect.value = year;
 
+
   renderCalendar();
+
 }
 
 
-/* รูปแบบข้อมูลเดิม */
+/* =========================
+   STORAGE KEY
+========================= */
 
-function createKey(year,month,day){
+function createKey(
+  year,
+  month,
+  day
+){
+
+  /*
+    คงรูปแบบเดิมไว้
+    เพื่ออ่านข้อมูลเก่าต่อ
+  */
 
   return (
     "travel-" +
@@ -761,17 +887,23 @@ function createKey(year,month,day){
 }
 
 
-/* ===================================
-   คำนวณยอดเงิน
-=================================== */
+/* =========================
+   CALCULATE MONEY
+========================= */
 
-function calculatePeriodTotal(year,month){
+function calculatePeriodTotal(
+  year,
+  month
+){
 
   let startDate;
   let endDate;
 
 
-  /* มกราคม = 1 - 25 มกราคม */
+  /*
+    มกราคม
+    1 - 25 มกราคม
+  */
 
   if(month === 0){
 
@@ -784,7 +916,10 @@ function calculatePeriodTotal(year,month){
   }
 
 
-  /* ธันวาคม = 26 พฤศจิกายน - 31 ธันวาคม */
+  /*
+    ธันวาคม
+    26 พฤศจิกายน - 31 ธันวาคม
+  */
 
   else if(month === 11){
 
@@ -797,23 +932,32 @@ function calculatePeriodTotal(year,month){
   }
 
 
-  /* ก.พ. - พ.ย.
-     26 เดือนก่อน - 25 เดือนนี้ */
+  /*
+    กุมภาพันธ์ - พฤศจิกายน
+    26 เดือนก่อน - 25 เดือนนี้
+  */
 
   else{
 
     startDate =
-      new Date(year,month-1,26);
+      new Date(
+        year,
+        month-1,
+        26
+      );
 
     endDate =
-      new Date(year,month,25);
+      new Date(
+        year,
+        month,
+        25
+      );
 
   }
 
 
   let total = 0;
-  let stayCount = 0;
-  let noStayCount = 0;
+
 
   const d =
     new Date(startDate);
@@ -828,6 +972,7 @@ function calculatePeriodTotal(year,month){
         d.getDate()
       );
 
+
     const saved =
       localStorage.getItem(key);
 
@@ -840,26 +985,29 @@ function calculatePeriodTotal(year,month){
           JSON.parse(saved);
 
 
-        /* ค้าง */
+        /*
+          ค้าง = 300
+        */
 
         if(data.stay === true){
 
           total += 300;
-          stayCount++;
 
         }
 
 
-        /* ไม่ค้าง */
+        /*
+          ไม่ค้าง = 250
+        */
 
         else if(data.stay === false){
 
           total += 250;
-          noStayCount++;
 
         }
 
       }
+
       catch(error){
 
         console.error(error);
@@ -885,32 +1033,25 @@ function calculatePeriodTotal(year,month){
     return (
       date.getDate() +
       " " +
-      monthNames[date.getMonth()]
+      monthShort[
+        date.getMonth()
+      ]
     );
 
   }
 
 
   periodTextEl.textContent =
-    "รอบ " +
     shortDate(startDate) +
     " – " +
     shortDate(endDate);
 
-
-  amountDetailEl.textContent =
-    "ไม่ค้าง " +
-    noStayCount +
-    " วัน × 250 บาท  •  ค้าง " +
-    stayCount +
-    " คืน × 300 บาท";
-
 }
 
 
-/* ===================================
-   ปฏิทิน
-=================================== */
+/* =========================
+   RENDER
+========================= */
 
 function renderCalendar(){
 
@@ -938,22 +1079,34 @@ function renderCalendar(){
 
 
   const firstDay =
-    new Date(year,month,1)
-      .getDay();
+    new Date(
+      year,
+      month,
+      1
+    ).getDay();
 
 
   const daysInMonth =
-    new Date(year,month+1,0)
-      .getDate();
+    new Date(
+      year,
+      month+1,
+      0
+    ).getDate();
 
 
   let travelDays = 0;
   let stayNights = 0;
 
 
-  /* ช่องว่าง */
+  /*
+    ช่องว่าง
+  */
 
-  for(let i=0;i<firstDay;i++){
+  for(
+    let i=0;
+    i<firstDay;
+    i++
+  ){
 
     const empty =
       document.createElement("div");
@@ -966,7 +1119,9 @@ function renderCalendar(){
   }
 
 
-  /* วันที่ */
+  /*
+    วันที่
+  */
 
   for(
     let day=1;
@@ -977,8 +1132,13 @@ function renderCalendar(){
     const dayBox =
       document.createElement("div");
 
-    dayBox.className = "day";
+    dayBox.className =
+      "day";
 
+
+    /*
+      วันนี้
+    */
 
     if(
       day === currentDate.getDate() &&
@@ -986,7 +1146,9 @@ function renderCalendar(){
       year === currentDate.getFullYear()
     ){
 
-      dayBox.classList.add("today");
+      dayBox.classList.add(
+        "today"
+      );
 
     }
 
@@ -1029,14 +1191,14 @@ function renderCalendar(){
           data.stay === false
         ){
 
-          dayBox.classList.add(
-            "has-data"
-          );
-
           travelDays++;
 
         }
 
+
+        /*
+          สถานที่
+        */
 
         if(data.place){
 
@@ -1053,6 +1215,10 @@ function renderCalendar(){
 
         }
 
+
+        /*
+          ค้าง / ไม่ค้าง
+        */
 
         if(
           data.stay === true ||
@@ -1091,6 +1257,7 @@ function renderCalendar(){
         }
 
       }
+
       catch(error){
 
         console.error(error);
@@ -1104,7 +1271,9 @@ function renderCalendar(){
       () => openModal(day);
 
 
-    calendar.appendChild(dayBox);
+    calendar.appendChild(
+      dayBox
+    );
 
   }
 
@@ -1118,7 +1287,9 @@ function renderCalendar(){
 }
 
 
-/* เปิดหน้าบันทึก */
+/* =========================
+   OPEN
+========================= */
 
 function openModal(day){
 
@@ -1160,11 +1331,14 @@ function openModal(day){
 
   document
     .getElementById("stayYes")
-    .classList.remove("selected");
+    .classList
+    .remove("selected");
+
 
   document
     .getElementById("stayNo")
-    .classList.remove("selected");
+    .classList
+    .remove("selected");
 
 
   if(saved){
@@ -1173,6 +1347,7 @@ function openModal(day){
 
       const data =
         JSON.parse(saved);
+
 
       placeInput.value =
         data.place || "";
@@ -1183,11 +1358,14 @@ function openModal(day){
         data.stay === false
       ){
 
-        selectStay(data.stay);
+        selectStay(
+          data.stay
+        );
 
       }
 
     }
+
     catch(error){
 
       console.error(error);
@@ -1197,26 +1375,33 @@ function openModal(day){
   }
 
 
-  modal.classList.add("show");
+  modal.classList.add(
+    "show"
+  );
+
 
   setTimeout(
-    ()=>placeInput.focus(),
+    () => placeInput.focus(),
     250
   );
 
 }
 
 
-/* เลือกค้าง */
+/* =========================
+   SELECT STAY
+========================= */
 
 function selectStay(value){
 
-  selectedStay = value;
+  selectedStay =
+    value;
 
 
   document
     .getElementById("stayYes")
-    .classList.toggle(
+    .classList
+    .toggle(
       "selected",
       value === true
     );
@@ -1224,7 +1409,8 @@ function selectStay(value){
 
   document
     .getElementById("stayNo")
-    .classList.toggle(
+    .classList
+    .toggle(
       "selected",
       value === false
     );
@@ -1232,7 +1418,9 @@ function selectStay(value){
 }
 
 
-/* บันทึก */
+/* =========================
+   SAVE
+========================= */
 
 function saveData(){
 
@@ -1260,21 +1448,20 @@ function saveData(){
     selectedStay === null
   ){
 
-    localStorage.removeItem(key);
+    localStorage.removeItem(
+      key
+    );
 
   }
 
   else{
 
-    /*
-      เก็บรูปแบบเดิม
-      true = ค้าง = 300
-      false = ไม่ค้าง = 250
-    */
-
     const data = {
+
       place:place,
+
       stay:selectedStay
+
     };
 
 
@@ -1287,12 +1474,15 @@ function saveData(){
 
 
   closeModal();
+
   renderCalendar();
 
 }
 
 
-/* ลบ */
+/* =========================
+   DELETE
+========================= */
 
 function deleteData(){
 
@@ -1311,19 +1501,28 @@ function deleteData(){
     );
 
 
-  localStorage.removeItem(key);
+  localStorage.removeItem(
+    key
+  );
+
 
   closeModal();
+
   renderCalendar();
 
 }
 
 
-/* ปิด */
+/* =========================
+   CLOSE
+========================= */
 
 function closeModal(){
 
-  modal.classList.remove("show");
+  modal.classList.remove(
+    "show"
+  );
+
   placeInput.blur();
 
 }
@@ -1334,12 +1533,16 @@ modal.addEventListener(
   function(event){
 
     if(event.target === modal){
+
       closeModal();
+
     }
 
   }
 );
 
+
+/* START */
 
 renderCalendar();
 
