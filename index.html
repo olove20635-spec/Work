@@ -87,6 +87,8 @@ body{
   color:white;
 
   font-size:27px;
+
+  cursor:pointer;
 }
 
 .month-center{
@@ -107,7 +109,9 @@ body{
 }
 
 
-/* เงิน */
+/* =========================
+   MONEY
+========================= */
 
 .money-area{
   text-align:center;
@@ -134,7 +138,9 @@ body{
 }
 
 
-/* สรุป */
+/* =========================
+   SUMMARY
+========================= */
 
 .header-summary{
   display:flex;
@@ -230,6 +236,8 @@ body{
   background:white;
 
   overflow:hidden;
+
+  cursor:pointer;
 }
 
 .day:nth-child(7n){
@@ -317,27 +325,41 @@ body{
 
   z-index:1000;
 
-  align-items:flex-end;
+  align-items:center;
   justify-content:center;
+
+  padding:
+    calc(20px + env(safe-area-inset-top))
+    18px
+    calc(20px + env(safe-area-inset-bottom));
 }
 
 .modal.show{
   display:flex;
 }
 
+
+/* Popup กลางจอ */
+
 .modal-box{
   width:100%;
-  max-width:760px;
+  max-width:520px;
 
   background:white;
 
-  border-radius:26px 26px 0 0;
+  border-radius:24px;
 
-  padding:
-    12px
-    18px
-    calc(20px + env(safe-area-inset-bottom));
+  padding:14px 18px 18px;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.28);
+
+  max-height:90%;
+  overflow-y:auto;
 }
+
+
+/* ขีดจับด้านบน */
 
 .handle{
   width:42px;
@@ -347,7 +369,7 @@ body{
 
   border-radius:10px;
 
-  margin:0 auto 16px;
+  margin:0 auto 15px;
 }
 
 .modal-small{
@@ -356,7 +378,7 @@ body{
 }
 
 .modal-box h2{
-  margin:3px 0 20px;
+  margin:4px 0 20px;
   font-size:23px;
 }
 
@@ -392,6 +414,11 @@ input[type="text"]:focus{
   background:white;
 }
 
+
+/* =========================
+   STAY BUTTON
+========================= */
+
 .stay-options{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -412,6 +439,8 @@ input[type="text"]:focus{
 
   font-size:13px;
   font-weight:650;
+
+  cursor:pointer;
 }
 
 .stay-option.selected{
@@ -421,6 +450,11 @@ input[type="text"]:focus{
 
   color:var(--navy);
 }
+
+
+/* =========================
+   BUTTONS
+========================= */
 
 .buttons{
   display:grid;
@@ -439,6 +473,8 @@ input[type="text"]:focus{
 
   font-size:14px;
   font-weight:700;
+
+  cursor:pointer;
 }
 
 .delete{
@@ -456,6 +492,31 @@ input[type="text"]:focus{
   color:white;
 }
 
+
+/* =========================
+   SMALL SCREEN
+========================= */
+
+@media(max-width:380px){
+
+  .day{
+    min-height:75px;
+  }
+
+  .place{
+    font-size:9px;
+  }
+
+  .money-value{
+    font-size:29px;
+  }
+
+  .modal-box{
+    padding:13px 15px 16px;
+  }
+
+}
+
 </style>
 </head>
 
@@ -471,9 +532,11 @@ input[type="text"]:focus{
     <button
       class="nav-btn"
       onclick="changeMonth(-1)"
+      aria-label="เดือนก่อนหน้า"
     >
       ‹
     </button>
+
 
     <div class="month-center">
 
@@ -489,9 +552,11 @@ input[type="text"]:focus{
 
     </div>
 
+
     <button
       class="nav-btn"
       onclick="changeMonth(1)"
+      aria-label="เดือนถัดไป"
     >
       ›
     </button>
@@ -503,13 +568,16 @@ input[type="text"]:focus{
 
     <div class="money-value">
 
-      <span class="baht">฿</span>
+      <span class="baht">
+        ฿
+      </span>
 
       <span id="totalAmount">
         0
       </span>
 
     </div>
+
 
     <div
       id="periodText"
@@ -531,9 +599,11 @@ input[type="text"]:focus{
 
     </div>
 
+
     <span class="dot">
       •
     </span>
+
 
     <div class="summary-pill">
 
@@ -573,6 +643,7 @@ input[type="text"]:focus{
 
   </div>
 
+
   <div
     id="calendar"
     class="calendar"
@@ -583,99 +654,111 @@ input[type="text"]:focus{
 </div>
 
 
+<!-- =========================
+     POPUP
+========================= -->
+
 <div
   id="modal"
   class="modal"
 >
 
-<div class="modal-box">
+  <div class="modal-box">
 
-  <div class="handle"></div>
-
-  <div class="modal-small">
-    รายละเอียดการเดินทาง
-  </div>
-
-  <h2 id="modalTitle">
-    วันที่
-  </h2>
+    <div class="handle"></div>
 
 
-  <label>
-    เดินทางไปไหน?
-  </label>
-
-  <input
-    type="text"
-    id="placeInput"
-    placeholder="เช่น กรุงเทพฯ"
-    autocomplete="off"
-  >
-
-
-  <label>
-    การพักค้าง
-  </label>
-
-
-  <div class="stay-options">
-
-    <div
-      id="stayYes"
-      class="stay-option"
-      onclick="selectStay(true)"
-    >
-      🛏️ ค้าง
-      <br>
-      300 บาท
+    <div class="modal-small">
+      รายละเอียดการเดินทาง
     </div>
 
 
-    <div
-      id="stayNo"
-      class="stay-option"
-      onclick="selectStay(false)"
+    <h2 id="modalTitle">
+      วันที่
+    </h2>
+
+
+    <label>
+      เดินทางไปไหน?
+    </label>
+
+
+    <input
+      type="text"
+      id="placeInput"
+      placeholder="เช่น กรุงเทพฯ"
+      autocomplete="off"
     >
-      🏠 ไม่ค้าง
-      <br>
-      250 บาท
+
+
+    <label>
+      การพักค้าง
+    </label>
+
+
+    <div class="stay-options">
+
+      <div
+        id="stayYes"
+        class="stay-option"
+        onclick="selectStay(true)"
+      >
+        🛏️ ค้าง
+        <br>
+        300 บาท
+      </div>
+
+
+      <div
+        id="stayNo"
+        class="stay-option"
+        onclick="selectStay(false)"
+      >
+        🏠 ไม่ค้าง
+        <br>
+        250 บาท
+      </div>
+
+    </div>
+
+
+    <div class="buttons">
+
+      <button
+        class="delete"
+        onclick="deleteData()"
+      >
+        ลบ
+      </button>
+
+
+      <button
+        class="cancel"
+        onclick="closeModal()"
+      >
+        ยกเลิก
+      </button>
+
+
+      <button
+        class="save"
+        onclick="saveData()"
+      >
+        บันทึก
+      </button>
+
     </div>
 
   </div>
 
-
-  <div class="buttons">
-
-    <button
-      class="delete"
-      onclick="deleteData()"
-    >
-      ลบ
-    </button>
-
-
-    <button
-      class="cancel"
-      onclick="closeModal()"
-    >
-      ยกเลิก
-    </button>
-
-
-    <button
-      class="save"
-      onclick="saveData()"
-    >
-      บันทึก
-    </button>
-
-  </div>
-
-</div>
 </div>
 
 
 <script>
+
+/* =========================
+   MONTH
+========================= */
 
 const monthNames = [
   "มกราคม",
@@ -692,6 +775,7 @@ const monthNames = [
   "ธันวาคม"
 ];
 
+
 const monthShort = [
   "ม.ค.",
   "ก.พ.",
@@ -707,6 +791,10 @@ const monthShort = [
   "ธ.ค."
 ];
 
+
+/* =========================
+   ELEMENTS
+========================= */
 
 const monthSelect =
   document.getElementById("monthSelect");
@@ -871,8 +959,8 @@ function createKey(
 ){
 
   /*
-    คงรูปแบบเดิมไว้
-    เพื่ออ่านข้อมูลเก่าต่อ
+    ห้ามเปลี่ยนรูปแบบนี้
+    เพื่อให้ข้อมูลเก่ายังอยู่
   */
 
   return (
@@ -985,20 +1073,11 @@ function calculatePeriodTotal(
           JSON.parse(saved);
 
 
-        /*
-          ค้าง = 300
-        */
-
         if(data.stay === true){
 
           total += 300;
 
         }
-
-
-        /*
-          ไม่ค้าง = 250
-        */
 
         else if(data.stay === false){
 
@@ -1050,7 +1129,7 @@ function calculatePeriodTotal(
 
 
 /* =========================
-   RENDER
+   RENDER CALENDAR
 ========================= */
 
 function renderCalendar(){
@@ -1098,9 +1177,7 @@ function renderCalendar(){
   let stayNights = 0;
 
 
-  /*
-    ช่องว่าง
-  */
+  /* ช่องว่างก่อนวันที่ 1 */
 
   for(
     let i=0;
@@ -1119,9 +1196,7 @@ function renderCalendar(){
   }
 
 
-  /*
-    วันที่
-  */
+  /* วันที่ */
 
   for(
     let day=1;
@@ -1136,9 +1211,7 @@ function renderCalendar(){
       "day";
 
 
-    /*
-      วันนี้
-    */
+    /* วันนี้ */
 
     if(
       day === currentDate.getDate() &&
@@ -1196,9 +1269,7 @@ function renderCalendar(){
         }
 
 
-        /*
-          สถานที่
-        */
+        /* สถานที่ */
 
         if(data.place){
 
@@ -1216,9 +1287,7 @@ function renderCalendar(){
         }
 
 
-        /*
-          ค้าง / ไม่ค้าง
-        */
+        /* ค้าง / ไม่ค้าง */
 
         if(
           data.stay === true ||
@@ -1288,7 +1357,7 @@ function renderCalendar(){
 
 
 /* =========================
-   OPEN
+   OPEN POPUP
 ========================= */
 
 function openModal(day){
@@ -1377,12 +1446,6 @@ function openModal(day){
 
   modal.classList.add(
     "show"
-  );
-
-
-  setTimeout(
-    () => placeInput.focus(),
-    250
   );
 
 }
@@ -1514,7 +1577,7 @@ function deleteData(){
 
 
 /* =========================
-   CLOSE
+   CLOSE POPUP
 ========================= */
 
 function closeModal(){
@@ -1527,6 +1590,8 @@ function closeModal(){
 
 }
 
+
+/* แตะพื้นที่ด้านนอก popup = ปิด */
 
 modal.addEventListener(
   "click",
@@ -1542,7 +1607,120 @@ modal.addEventListener(
 );
 
 
-/* START */
+/* =========================
+   SWIPE CHANGE MONTH
+========================= */
+
+let touchStartX = 0;
+let touchStartY = 0;
+
+
+/* เริ่มปัด */
+
+document.addEventListener(
+  "touchstart",
+  function(event){
+
+    /*
+      ถ้า Popup เปิดอยู่
+      ไม่ให้ปัดเปลี่ยนเดือน
+    */
+
+    if(
+      modal.classList.contains("show")
+    ){
+      return;
+    }
+
+
+    touchStartX =
+      event.changedTouches[0].screenX;
+
+    touchStartY =
+      event.changedTouches[0].screenY;
+
+  },
+  {passive:true}
+);
+
+
+/* ปล่อยนิ้ว */
+
+document.addEventListener(
+  "touchend",
+  function(event){
+
+    /*
+      ถ้า Popup เปิดอยู่
+      ไม่เปลี่ยนเดือน
+    */
+
+    if(
+      modal.classList.contains("show")
+    ){
+      return;
+    }
+
+
+    const touchEndX =
+      event.changedTouches[0].screenX;
+
+    const touchEndY =
+      event.changedTouches[0].screenY;
+
+
+    const diffX =
+      touchEndX - touchStartX;
+
+    const diffY =
+      touchEndY - touchStartY;
+
+
+    /*
+      ต้องปัดแนวนอนเกิน 60px
+
+      และระยะในแนวนอน
+      ต้องมากกว่าแนวตั้ง
+    */
+
+    if(
+      Math.abs(diffX) > 60 &&
+      Math.abs(diffX) > Math.abs(diffY)
+    ){
+
+      /*
+        ปัดซ้าย
+        = เดือนถัดไป
+      */
+
+      if(diffX < 0){
+
+        changeMonth(1);
+
+      }
+
+
+      /*
+        ปัดขวา
+        = เดือนก่อนหน้า
+      */
+
+      else{
+
+        changeMonth(-1);
+
+      }
+
+    }
+
+  },
+  {passive:true}
+);
+
+
+/* =========================
+   START
+========================= */
 
 renderCalendar();
 
